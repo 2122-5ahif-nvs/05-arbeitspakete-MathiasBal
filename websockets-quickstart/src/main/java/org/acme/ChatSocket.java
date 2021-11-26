@@ -19,6 +19,12 @@ public class ChatSocket {
         sessions.put(username, session);
     }
 
+    @OnClose
+    public void onClose(Session session, @PathParam("username") String username) {
+        sessions.remove(username);
+        broadcast("User " + username + " left");
+    }
+
     private void broadcast(String message) {
         sessions.values().forEach(s -> {
             s.getAsyncRemote().sendObject(message, result ->  {
