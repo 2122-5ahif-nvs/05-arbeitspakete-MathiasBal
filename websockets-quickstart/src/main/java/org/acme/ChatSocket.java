@@ -2,6 +2,7 @@ package org.acme;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
@@ -23,6 +24,12 @@ public class ChatSocket {
     public void onClose(Session session, @PathParam("username") String username) {
         sessions.remove(username);
         broadcast("User " + username + " left");
+    }
+
+    @OnError
+    public void onError(Session session, @PathParam("username") String username, Throwable throwable) {
+        sessions.remove(username);
+        broadcast("User " + username + " left on error: " + throwable);
     }
 
     private void broadcast(String message) {
