@@ -7,7 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class GreetingService {
 
-    @ConsumeEvent
+    @ConsumeEvent("greeting")
     public String consume(String name) {
         return name.toUpperCase();
     }
